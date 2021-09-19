@@ -1,0 +1,28 @@
+/*地址调整函数*/
+void AddressAdjustment(string address) //C++里面如果输入的地址只存在一个斜杠会出问题，故需要调整成两个斜杠
+{
+	int s;
+	s = address.length();
+	stack <char> n;
+
+	while (s--)
+	{
+		n.push(address[s]);
+	}
+
+	address = "";
+
+	while (!n.empty())
+	{
+		if (n.top() == '\\')
+		{
+			add += '\\';
+		}
+		else
+		{
+			add += n.top();
+		}
+
+		n.pop();
+	}
+}
