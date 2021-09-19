@@ -1,0 +1,10 @@
+string Read_Cfile(string address)
+{
+	fstream C_file; //读取路径
+	stringstream buffer; //缓冲
+
+	C_file.open(address, ios::in);
+	buffer << C_file.rdbuf();
+	C_file.close();
+	return buffer.str();
+};
