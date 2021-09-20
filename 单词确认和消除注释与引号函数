@@ -1,0 +1,47 @@
+/*分析单词和去除注释与引号函数*/
+void Data_analysis::Analyze_words(string temp, output_data& res)
+{
+	int len = temp.length;
+	int i;
+	string str = "\0";
+
+	for (i = 0; i < len; i++)
+	{
+		if (temp[i] == '/' && temp[i + 1] == '/')  //现在消除“//”的影响
+		{
+			while (i++)
+			{
+				if (temp[i] == '\n')
+					break;
+			}
+		}
+		else if (temp[i] == '/' && temp[i + 1] == '*') //现在消除“/**/”的影响
+		{
+			while (i++)
+			{
+				if (temp[i] == '/' && temp[i - 1] == '*')
+					break;
+			}
+		}
+		else if (temp[i] == '"') //现在消除“""”的影响,目前无法解决引号中还有引号或者是奇数个引号的问题
+		{
+			while (i++)
+			{
+				if (temp[i] == '"')
+					break;
+			}
+		}
+		else //接下来是用于分析单词，并将单词送进Comparison函数进行关键词比对
+		{
+			if (isalpha(temp[i])) //isalpha用于检测代码段是否为字母
+			{
+				str += temp[i];
+				Comparison(str, res);
+			}
+			else
+			{
+				temp = '\0'; //分析完单词后初始化
+			}
+		}
+	}
+}
