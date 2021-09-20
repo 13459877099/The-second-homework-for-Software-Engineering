@@ -1,0 +1,60 @@
+/*输入操作类*/
+class input_data
+{
+public:
+	string address;
+	int finish_level;
+	void Input();  //用于数据的输入
+	void AddresssAdjustment(string add);  //用于输入的地址调整
+	string Read_Cfile(string add); //用于读取cpp文件，并将其转换成字符串
+};
+
+/*输入函数*/
+void input_data::Input()
+{
+	cout << "请输入文件的路径地址" << endl;
+	cin >> address;
+	cout << "请输入您需要的完成等级" << endl;
+	cin >> finish_level;
+}
+
+/*输入地址调整函数*/
+void input_data::AddresssAdjustment(string address)
+{
+	int s;
+	s = address.length();
+	stack <char> n;
+
+	while (s--)
+	{
+		n.push(address[s]);
+	}
+
+	address = "";
+
+	while (!n.empty())
+	{
+		if (n.top() == '\\')
+		{
+			address += '\\';
+		}
+		else
+		{
+			address += n.top();
+		}
+
+		n.pop();
+	}
+}
+
+/*cpp文件读取函数*/
+string input_data::Read_Cfile(string address)
+{
+	fstream C_file; //读取路径
+	stringstream buffer; //缓冲
+
+	C_file.open(address, ios::in);
+	buffer << C_file.rdbuf();
+	C_file.close();
+	return buffer.str();
+}
